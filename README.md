@@ -1,0 +1,1 @@
+Solitaire, a classic card game, is known for its simple rules but intricate gameplay. The primary challenge was to program the game's rules and provide a terminal output. This project aimed to solve these challenges using C++ and custom-built data structures.
