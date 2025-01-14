@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 using namespace std;
-class Cards     // easiest way to make cards 
+
+class Cards
 {
 public:
     enum Suit
@@ -11,23 +12,35 @@ public:
         clubs,
         spades
     };
-    enum Rank   // the ranks can be used as if integers
+    enum Rank
     {
-        ace = 1,two,three,four,five,six,seven,eight,nine,ten,jack,queen,king
+        ace = 1,
+        two,
+        three,
+        four,
+        five,
+        six,
+        seven,
+        eight,
+        nine,
+        ten,
+        jack,
+        queen,
+        king
     };
 
 private:
     Suit suit;
     Rank rank;
-    bool faceStatus;
+    bool face_up;
 
 public:
-    Cards() : suit(hearts), rank(ace), faceStatus(false) {}
-    Cards(Suit s, Rank r) : suit(s), rank(r), faceStatus(false) {}
+    Cards() : suit(hearts), rank(ace), face_up(false) {}
+    Cards(Suit s, Rank r) : suit(s), rank(r), face_up(false) {}
 
     Suit getSuit() { return suit; }
     Rank getRank() { return rank; }
-    bool getFace() { return faceStatus; }
+    bool getFaceStatus() { return face_up; }
     string getSuitSymbol() const
     {
         switch (suit)
@@ -46,9 +59,9 @@ public:
 
     void display() const
     {
-        string current_rank;
         string current_suit;
-        string Ccode;       // UTF code ko rakh lo bhai 
+        string current_rank;
+        string color_code; // To store the color code
 
         switch (rank)
         {
@@ -72,46 +85,73 @@ public:
         {
         case hearts:
             current_suit = "♥";
-            Ccode = "\033[31m";
+            color_code = "\033[31m";
             break;
         case diamonds:
             current_suit = "♦";
-            Ccode = "\033[31m";
+            color_code = "\033[31m";
             break;
         case clubs:
             current_suit = "♣";
-            Ccode = "\033[37m";
+            color_code = "\033[37m";
             break;
         case spades:
             current_suit = "♠";
-            Ccode = "\033[37m";
+            color_code = "\033[37m";
             break;
         }
 
-        cout << Ccode << current_rank + current_suit << "\033[0m" << endl;  // color to wapas krdo terminal ko 
+        cout << color_code << current_rank + current_suit << "\033[0m" << endl; // Reset color after printing
     }
 
-    bool black(Cards c)
+    // helper functions (idk if i'll ever use em but better safe than sorry)
+    bool is_black(Cards c)
     {
-        return c.suit == spades || c.suit == clubs;     // bs yahi hein black 
+        return c.suit == spades || c.suit == clubs;
     }
 
     bool toggleFace()
     {
-        faceStatus = !faceStatus;
-        return faceStatus;
+        face_up = !face_up;
+        return face_up;
     }
 
-    bool red(Cards c)
+    bool is_red(Cards c)
     {
-        return c.suit == hearts || c.suit == diamonds;  // or ye red hein apne pass 
+        return c.suit == hearts || c.suit == diamonds;
     }
 
     bool isDifferentColor(Cards c)
     {
-        return (black(*this) && red(c)) || (red(*this) && black(c));
+        return (is_black(*this) && is_red(c)) || (is_red(*this) && is_black(c));
     }
-    string toString() const
+
+    bool isDifferentSuit(Cards c)
+    {
+        return this->suit != c.suit;
+    }
+
+    bool is_same_color(Cards c1, Cards c2)
+    {
+        return (is_black(c1) && is_black(c2)) || (is_red(c1) && is_red(c2));
+    }
+
+    bool in_sequence(Cards c2)
+    {
+        return this->rank == c2.rank + 1;
+    }
+
+    bool can_stack_tableau(Cards c1, Cards c2)
+    {
+        return c1.isDifferentColor(c2) && c1.in_sequence(c2);
+    }
+
+    bool can_stack_foundations(Cards c1, Cards c2)
+    {
+        return is_same_color(c1, c2) && c1.in_sequence(c2);
+    }
+
+    string cardDataToString() const
     {
         string current_suit;
         string current_rank;
@@ -137,13 +177,12 @@ public:
 
         switch (suit)
         {
-        case diamonds:
-            current_suit = "♦";
-            break;
         case hearts:
             current_suit = "♥";
             break;
-        
+        case diamonds:
+            current_suit = "♦";
+            break;
         case clubs:
             current_suit = "♣";
             break;
@@ -151,6 +190,6 @@ public:
             current_suit = "♠";
             break;
         }
-        return current_rank + current_suit;     // 5A type return krni ha , easy to print 
+        return current_rank + current_suit;
     }
 };

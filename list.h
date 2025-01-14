@@ -2,7 +2,7 @@
 using namespace std;
 
 template <class T>
-class List   
+class DLL
 {
 private:
     class Node
@@ -12,16 +12,16 @@ private:
         Node *next;
         Node *prev;
 
-        Node(T c) : card(c), next(NULL), prev(NULL) {}
+        Node(T c) : card(c), next(nullptr), prev(nullptr) {}
     };
     Node *head;
     Node *tail;
 
 public:
-    List() : head(NULL), tail(NULL) {}
-    ~List()
+    DLL() : head(nullptr), tail(nullptr) {}
+    ~DLL()
     {
-        while (head != NULL)
+        while (head != nullptr)
         {
             Node *temp = head;
             head = head->next;
@@ -32,7 +32,7 @@ public:
     void add(T c)
     {
         Node *new_node = new Node(c);
-        if (head == NULL)
+        if (head == nullptr)
         {
             head = new_node;
             tail = new_node;
@@ -43,33 +43,33 @@ public:
             new_node->prev = tail;
             tail = new_node;
         }
-        tail->next = NULL;
+        tail->next = nullptr;
     }
 
     T remove()
     {
-        if (head == NULL)
+        if (head == nullptr)
         {
             throw invalid_argument("Empty list");
         }
 
         Node *temp = head;
-        if (head->next == NULL) // Only one element in the list
+        if (head->next == nullptr) // Only one element in the list
         {
             T c = head->card;
             delete head;
-            head = NULL;
+            head = nullptr;
             return c;
         }
 
         // Traverse to the last node
-        while (temp->next != NULL)
+        while (temp->next != nullptr)
         {
             temp = temp->next;
         }
 
         T c = temp->card;
-        temp->prev->next = NULL;
+        temp->prev->next = nullptr;
         tail = temp->prev;
         delete temp;
         return c;
@@ -79,7 +79,7 @@ public:
     {
         Node *current = head;
         int count = 0;
-        while (current != NULL)
+        while (current != nullptr)
         {
             count++;
             current = current->next;
@@ -91,7 +91,7 @@ public:
     {
         Node *current = head;
         int count = 0;
-        while (current != NULL)
+        while (current != nullptr)
         {
             if (count == index)
             {
@@ -101,12 +101,12 @@ public:
             current = current->next;
         }
 
-        return NULL;
+        return nullptr;
     }
 
     bool isEmpty()
     {
-        return head == NULL;
+        return head == nullptr;
     }
 
     class iterator
@@ -131,5 +131,5 @@ public:
     };
 
     iterator begin() { return iterator(head); }
-    iterator end() { return iterator(NULL); }
+    iterator end() { return iterator(nullptr); }
 };

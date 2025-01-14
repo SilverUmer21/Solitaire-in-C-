@@ -1,6 +1,8 @@
-#include<iostream>
-template<typename T>
-class STACK
+#include <iostream>
+using namespace std;
+
+template <class T>
+class stack
 {
 private:
     class Node
@@ -9,17 +11,17 @@ private:
         T data;
         Node *next;
 
-        Node(T d) : data(d), next(NULL) {}
+        Node(T d) : data(d), next(nullptr) {}
     };
 
     Node *top;
     int count;
 
 public:
-    STACK() : top(NULL), count(0) {}
-    ~STACK()
+    stack() : top(nullptr), count(0) {}
+    ~stack()
     {
-        while (top != NULL)
+        while (top != nullptr)
         {
             Node *temp = top;
             top = top->next;
@@ -37,10 +39,10 @@ public:
 
     T pop()
     {
-        if (top == NULL)
+        if (top == nullptr)
         {
-            cout << "STACK is empty" << endl;
-            throw std::runtime_error("STACK is empty");
+            cout << "Stack is empty" << endl;
+            throw std::runtime_error("Stack is empty");
         }
         T temp = top->data;
         Node *temp_node = top;
@@ -52,17 +54,19 @@ public:
 
     T &peek()
     {
-        if (top == NULL)
+        if (top == nullptr)
         {
-            cout << "STACK is empty" << endl;
-            throw std::runtime_error("STACK is empty");
+            cout << "Stack is empty" << endl;
+            throw std::runtime_error("Stack is empty");
         }
         return top->data;
     }
+
     bool isEmpty()
     {
-        return top == NULL;
+        return top == nullptr;
     }
+
     int size()
     {
         return count;

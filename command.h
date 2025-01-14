@@ -4,13 +4,14 @@
 #include <sstream>
 #include <stdexcept>
 using namespace std;
+
 class command
 {
 private:
-    int amount;
+    string commandtype;
     char source[3];
     char destination[3];
-    string commandtype;
+    int amount;
     bool flipped;
 
 public:
@@ -22,16 +23,18 @@ public:
         destination[sizeof(destination) - 1] = '\0';
     }
 
-    string  getcommandtype()     { return commandtype; }
-    char   *getsource()          { return source; }
-    char   *getdestination()     { return destination; }
-    int     getamount()          { return amount; }
-    bool    getflipped()         { return flipped; }
-    void    setflipped(bool f)   { flipped = f; }
+    string getCommandType() { return commandtype; }
+    char *getsource() { return source; }
+    char *getdestination() { return destination; }
+    int getamount() { return amount; }
+    bool getflipped() { return flipped; }
+    void setflipped(bool f) { flipped = f; }
 };
+
 command parseCommand(string input)
 {
-    string commandtype;     // sab se mushkil kaam 
+
+    string commandtype;
     char source[3] = "";
     char destination[3] = "";
     int amount = 0;
